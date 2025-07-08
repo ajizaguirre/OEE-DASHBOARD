@@ -1,0 +1,14 @@
+Key Findings & Recommendations
+Overall Performance: The facility operates at an average OEE of 61.3%, which is below the world-class standard of 85%. This indicates significant room for improvement. Line 3 is the worst-performing line, while Line 1 is the best.
+
+Primary Source of Loss: The largest contributor to lost productivity is Availability Loss, meaning machines are frequently stopped. This is followed by Performance Loss, indicating that even when running, the machines are not operating at their ideal speed.
+
+Top Downtime Reason: The Pareto analysis reveals that "Unplanned Machine Failure" is the single largest cause of downtime, followed by "Operator Break" and "Material Shortage". The top two reasons account for nearly 60% of all downtime events.
+
+Actionable Recommendations:
+
+Prioritize Line 3: Focus continuous improvement efforts on Line 3, as it has the lowest OEE. A root cause analysis should be conducted to understand its specific underperformance.
+
+Implement a Predictive Maintenance Program: Given that "Unplanned Machine Failure" is the biggest issue, a predictive maintenance strategy should be developed. By using sensors or tracking machine hours, the team can perform maintenance before a failure occurs, converting unplanned downtime to planned downtime.
+
+Optimize Operator Break Schedules: Investigate the "Operator Break" downtime. Staggering breaks or providing float operators could minimize the time a line is stopped, significantly boosting Availability.
