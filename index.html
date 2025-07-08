@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive OEE Performance Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* Tailwind gray-50 */
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 450px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .main-header {
+            background: linear-gradient(90deg, #1e3a8a 0%, #3b82f6 100%);
+        }
+        .kpi-card-main {
+            background-color: #1e3a8a; /* Tailwind blue-900 */
+        }
+        .kpi-card {
+             background-color: white;
+        }
+        .recommendation-flow > div:not(:last-child)::after {
+            content: '→';
+            color: #60a5fa; /* Tailwind blue-400 */
+            font-size: 2.5rem;
+            font-weight: bold;
+            position: absolute;
+            right: -2.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+         .recommendation-flow > div {
+            position: relative;
+        }
+    </style>
+</head>
+<body class="antialiased text-slate-800">
+
+    <header class="main-header text-white p-8 mb-8 shadow-lg">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold">Operational Performance Report</h1>
+            <p class="text-lg text-blue-200 mt-2">An Interactive Analysis of Overall Equipment Effectiveness (OEE)</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:px-8">
+
+        <section id="kpi-summary" class="mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="kpi-card-main rounded-2xl shadow-2xl p-6 flex flex-col justify-center items-center text-center text-white">
+                    <h2 class="text-2xl font-bold tracking-tight text-blue-200">Overall OEE Score</h2>
+                    <p class="text-7xl font-black my-2 text-white">61.3%</p>
+                    <p class="font-semibold text-blue-300">Below world-class standard of 85%, indicating significant opportunity for improvement.</p>
+                </div>
+
+                <div class="kpi-card rounded-2xl shadow-xl p-6">
+                     <h3 class="text-xl font-bold text-center mb-4 text-slate-700">Availability Score</h3>
+                     <div class="chart-container h-48 max-h-48">
+                        <canvas id="availabilityGauge"></canvas>
+                     </div>
+                </div>
+                
+                <div class="kpi-card rounded-2xl shadow-xl p-6">
+                     <h3 class="text-xl font-bold text-center mb-4 text-slate-700">Performance Score</h3>
+                     <div class="chart-container h-48 max-h-48">
+                        <canvas id="performanceGauge"></canvas>
+                     </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="analysis-deep-dive" class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-1 text-slate-800">Performance by Production Line</h3>
+                    <p class="text-slate-600 mb-4">Identifying underperforming assets is the first step toward targeted action. Line 3 presents the most urgent opportunity for improvement.</p>
+                    <div class="chart-container h-80 md:h-[400px] max-h-[400px]">
+                        <canvas id="oeeByMachineChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold mb-1 text-slate-800">Root Cause: Why Are We Stopping?</h3>
+                    <p class="text-slate-600 mb-4">With Availability being our primary loss factor, this Pareto analysis pinpoints the few vital reasons for downtime that cause most of our problems.</p>
+                     <div class="chart-container h-80 md:h-[400px] max-h-[400px]">
+                        <canvas id="downtimeParetoChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recommendations" class="bg-blue-50 border-t-4 border-blue-500 rounded-b-lg p-6 md:p-8">
+             <h3 class="text-3xl font-bold text-center mb-8 text-slate-800">A Data-Driven Path to World-Class OEE</h3>
+             <div class="recommendation-flow grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-20">
+                 <div class="text-center">
+                    <div class="text-6xl mb-3">1</div>
+                    <h4 class="text-xl font-bold mb-2 text-blue-800">Prioritize Line 3</h4>
+                    <p class="text-slate-600">Focus continuous improvement efforts on Line 3. Conduct a deep-dive root cause analysis to understand its specific underperformance.</p>
+                 </div>
+                 
+                 <div class="text-center">
+                    <div class="text-6xl mb-3">2</div>
+                    <h4 class="text-xl font-bold mb-2 text-blue-800">Predictive Maintenance</h4>
+                    <p class="text-slate-600">Address "Unplanned Machine Failures" by implementing a predictive maintenance program, converting unplanned stops into efficient, planned activities.</p>
+                 </div>
+
+                 <div class="text-center">
+                     <div class="text-6xl mb-3">3</div>
+                    <h4 class="text-xl font-bold mb-2 text-blue-800">Optimize Schedules</h4>
+                    <p class="text-slate-600">Investigate and optimize operator break schedules. Staggering breaks or using float operators can significantly boost line availability.</p>
+                 </div>
+             </div>
+        </section>
+
+    </main>
+
+    <footer class="text-center p-4 mt-8">
+        <p class="text-sm text-slate-500">Interactive report generated on July 7, 2025.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const wrapLabel = (label, maxWidth) => {
+                if (label.length <= maxWidth) return label;
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = '';
+                for (const word of words) {
+                    if ((currentLine + ' ' + word).trim().length > maxWidth && currentLine.length > 0) {
+                        lines.push(currentLine);
+                        currentLine = word;
+                    } else {
+                        currentLine = (currentLine + ' ' + word).trim();
+                    }
+                }
+                if (currentLine.length > 0) lines.push(currentLine);
+                return lines;
+            };
+            
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                return Array.isArray(label) ? label.join(' ') : label;
+            };
+            
+            const SHARED_CHART_OPTIONS = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        enabled: true,
+                        bodyFont: { family: 'Inter' },
+                        titleFont: { family: 'Inter', weight: 'bold' },
+                        backgroundColor: 'rgba(30, 41, 59, 0.9)',
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: { title: tooltipTitleCallback }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { family: 'Inter', size: 12 }, color: '#475569' }
+                    },
+                    y: {
+                        grid: { color: '#e2e8f0', borderDash: [2, 4] },
+                        ticks: { font: { family: 'Inter', size: 12 }, color: '#475569' },
+                        beginAtZero: true
+                    }
+                }
+            };
+            
+            const createGaugeChart = (ctx, label, value, color) => {
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: [label, ''],
+                        datasets: [{
+                            data: [value, 1 - value],
+                            backgroundColor: [color, '#e2e8f0'],
+                            borderColor: '#ffffff',
+                            borderWidth: 4,
+                            circumference: 180,
+                            rotation: 270,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: {
+                            tooltip: { enabled: false },
+                            legend: { display: false },
+                            datalabels: {
+                                formatter: (val, context) => context.chart.data.labels[context.dataIndex],
+                                color: '#fff'
+                            },
+                             annotation: {
+                                annotations: {
+                                    valueLabel: {
+                                        type: 'label',
+                                        content: `${(value * 100).toFixed(1)}%`,
+                                        font: { size: 36, weight: 'bold', family: 'Inter' },
+                                        color: '#1e293b',
+                                        yAdjust: -15,
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            };
+
+            createGaugeChart(document.getElementById('availabilityGauge').getContext('2d'), 'Availability', 0.842, '#3b82f6');
+            createGaugeChart(document.getElementById('performanceGauge').getContext('2d'), 'Performance', 0.912, '#2dd4bf');
+
+            new Chart(document.getElementById('oeeByMachineChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Line 1', 'Line 2', 'Line 3'],
+                    datasets: [{
+                        label: 'Average OEE',
+                        data: [0.631, 0.621, 0.587],
+                        backgroundColor: ['#2dd4bf', '#60a5fa', '#f87171'],
+                        borderRadius: 4,
+                        barPercentage: 0.6,
+                    }]
+                },
+                options: { ...SHARED_CHART_OPTIONS,
+                    scales: { ...SHARED_CHART_OPTIONS.scales,
+                         y: { ...SHARED_CHART_OPTIONS.scales.y, ticks: { callback: value => (value * 100).toFixed(0) + '%' } }
+                    }
+                }
+            });
+            
+            const downtimeLabels = ['Unplanned Machine Failure', 'Operator Break', 'Material Shortage', 'Planned Maintenance', 'Changeover'];
+            new Chart(document.getElementById('downtimeParetoChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: downtimeLabels.map(label => wrapLabel(label, 16)),
+                    datasets: [
+                        { label: 'Number of Occurrences', data: [125, 120, 85, 45, 42], backgroundColor: '#60a5fa', borderRadius: 4, barPercentage: 0.6, yAxisID: 'y', },
+                        { label: 'Cumulative Percentage', data: [29.9, 58.6, 79.0, 89.7, 100.0], type: 'line', borderColor: '#1e3a8a', borderWidth: 3, pointBackgroundColor: '#1e3a8a', pointRadius: 4, tension: 0.1, yAxisID: 'y1', }
+                    ]
+                },
+                options: { ...SHARED_CHART_OPTIONS,
+                    plugins: { ...SHARED_CHART_OPTIONS.plugins, legend: { display: true, position: 'bottom' } },
+                    scales: { ...SHARED_CHART_OPTIONS.scales,
+                         y: { position: 'left', title: { display: true, text: 'Number of Occurrences', color: '#475569' } },
+                         y1: { type: 'linear', display: true, position: 'right', grid: { drawOnChartArea: false }, min: 0, max: 105, title: { display: true, text: 'Cumulative %', color: '#475569' }, ticks: { callback: value => value + '%' } }
+                    },
+                }
+            });
+        });
+    </script>
+</body>
+</html>
